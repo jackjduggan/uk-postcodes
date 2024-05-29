@@ -5,12 +5,8 @@ Postcodes are:
 - divided into 2 parts separated by space (outward, inward)
 """
 
-def isNumber(char):
-    numbers = list(range(0,10))
-    if char in numbers:
-        return True
-    else:
-        return False
+def isNumber(c):
+    return c.isdigit()
     
 
 sample_postcode = "EC1A 1BB"
@@ -21,7 +17,11 @@ print(sliced_postcode)
 # returns: ['E', 'C', '1', 'A', ' ', '1', 'B', 'B']
 
 def checkEachChar(list):
-    for char in list:
-        isNumber(char)
+    for c in list:
+        print(f"Checking: {c}")
+        if isNumber(c) == True:
+            print("True")
+        else:
+            print("False")
     
 checkEachChar(sliced_postcode)
