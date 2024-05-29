@@ -25,3 +25,39 @@ def checkEachChar(list):
             print("False")
     
 checkEachChar(sliced_postcode)
+
+def validate(list):
+    output = []
+    for c in list:
+        if isNumber(c) == True:
+            c = 9
+            output.append(c)
+        elif c == " ":
+            c = " "
+            output.append(c)
+        else:
+            c = "A"
+            output.append(c)
+    return output
+
+output = validate(sliced_postcode)
+print(output)
+
+formats = [
+    ["A", "A", 9, "A",  " ", 9, "A", "A"],  # WC postcode area; EC1–EC4, NW1W, SE1P, SW1 | EC1A 1BB
+    ["A", 9, "A",       " ", 9, "A", "A"],  # E1, N1, W1 | W1A 0AX
+    ["A", 9,            " ", 9, "A", "A"],  # B, E, G, L, M, N, S, W | M1 1AE, B33 8TH
+    ["A", 9, 9,         " ", 9, "A", "A"],
+    ["A", "A", 9,       " ", 9, "A", "A"],  # All other postcodes | CR2 6XH, DN55 1PT
+    ["A", "A", 9, 9,    " ", 9, "A", "A"]
+]
+
+
+def compareOutputToFormats(formats, code):
+    for f in formats:
+        if all(x == y for x, y in zip(f, code)):
+            print(f"Postcode matches format {f}")
+        else:
+            print("Postcode not valid")
+
+compareOutputToFormats(formats, output)
