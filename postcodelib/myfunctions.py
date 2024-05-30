@@ -14,16 +14,26 @@ formats = [
     ["A", "A", "9", "9",  " ", "9", "A", "A"]
 ]
 
-def isNumber(c):
-    return c.isdigit()
+def validatePostcode(code) -> str:
+    formatted_code = formatCode(sliceCode(code))
+    print(formatted_code)
+    for f in formats:
+        if all(x == y for x, y in zip(f, formatted_code)): # https://www.geeksforgeeks.org/python-check-if-two-lists-are-identical/
+            print(f"Postcode matches format {f}")
+            return True
+    return False
+        
+
+def isNumber(chr):
+    return chr.isdigit()
     
-def checkEachChar(list):
-    for c in list:
-        print(f"Checking: {c}")
-        if isNumber(c) == True:
-            print("True")
-        else:
-            print("False")
+# def checkEachChar(list):
+#     for c in list:
+#         print(f"Checking: {c}")
+#         if isNumber(c) == True:
+#             print("True")
+#         else:
+#             print("False")
 
 def sliceCode(code):
     sliced_code = []
@@ -40,16 +50,3 @@ def formatCode(list):
         else:
             output.append("A")
     return output
-
-def compareOutputToFormats(code) -> str:
-    formatted_code = formatCode(sliceCode(code))
-    print(formatted_code)
-    for f in formats:
-        if all(x == y for x, y in zip(f, formatted_code)): # https://www.geeksforgeeks.org/python-check-if-two-lists-are-identical/
-            print(f"Postcode matches format {f}")
-            return True
-        else:
-            print("Postcode not valid")
-
-#compareOutputToFormats(sample_postcode)
-compareOutputToFormats("B4D 5FV")
