@@ -26,11 +26,11 @@ def checkEachChar(list):
     
 checkEachChar(sliced_postcode)
 
-def validate(list):
+def formatCode(list):
     output = []
     for c in list:
         if isNumber(c) == True:
-            c = 9
+            c = "9"
             output.append(c)
         elif c == " ":
             c = " "
@@ -40,24 +40,32 @@ def validate(list):
             output.append(c)
     return output
 
-output = validate(sliced_postcode)
+output = formatCode(sliced_postcode)
 print(output)
 
 formats = [
-    ["A", "A", 9, "A",  " ", 9, "A", "A"],  # WC postcode area; EC1–EC4, NW1W, SE1P, SW1 | EC1A 1BB
-    ["A", 9, "A",       " ", 9, "A", "A"],  # E1, N1, W1 | W1A 0AX
-    ["A", 9,            " ", 9, "A", "A"],  # B, E, G, L, M, N, S, W | M1 1AE, B33 8TH
-    ["A", 9, 9,         " ", 9, "A", "A"],
-    ["A", "A", 9,       " ", 9, "A", "A"],  # All other postcodes | CR2 6XH, DN55 1PT
-    ["A", "A", 9, 9,    " ", 9, "A", "A"]
+    ["A", "A", "9", "A",  " ", "9", "A", "A"],  # WC postcode area; EC1–EC4, NW1W, SE1P, SW1 | EC1A 1BB
+    ["A", "9", "A",       " ", "9", "A", "A"],  # E1, N1, W1 | W1A 0AX
+    ["A", "9",            " ", "9", "A", "A"],  # B, E, G, L, M, N, S, W | M1 1AE, B33 8TH
+    ["A", "9", "9",       " ", "9", "A", "A"],
+    ["A", "A", "9",       " ", "9", "A", "A"],  # All other postcodes | CR2 6XH, DN55 1PT
+    ["A", "A", "9", "9",  " ", "9", "A", "A"]
 ]
 
 
-def compareOutputToFormats(formats, code):
+def compareOutputToFormats(code):
+    sliced_code = []
+    print(sliced_code)
+    sliced_code[:] = code
+    print(sliced_code)
+    formatted_code = formatCode(sliced_code)
+    print(formatted_code)
     for f in formats:
-        if all(x == y for x, y in zip(f, code)):
+        if all(x == y for x, y in zip(f, formatted_code)): # https://www.geeksforgeeks.org/python-check-if-two-lists-are-identical/
             print(f"Postcode matches format {f}")
+            return True
         else:
             print("Postcode not valid")
 
-compareOutputToFormats(formats, output)
+#compareOutputToFormats(sample_postcode)
+compareOutputToFormats("BC4D 5FV")
