@@ -1,3 +1,5 @@
+import re
+
 """
 This file allows for validation of UK postcodes.
 There are a handful of valid postcode formats, which can be seen below.
@@ -12,6 +14,8 @@ formats = [
     ["A", "A", "9",       " ", "9", "A", "A"],  # All other postcodes | CR2 6XH, DN55 1PT
     ["A", "A", "9", "9",  " ", "9", "A", "A"]
 ]
+
+regex = "^(([A-Z]{1,2}[0-9][A-Z0-9]?|ASCN|STHL|TDCU|BBND|[BFS]IQQ|PCRN|TKCA) ?[0-9][A-Z]{2}|BFPO ?[0-9]{1,4}|(KY[0-9]|MSR|VG|AI)[ -]?[0-9]{4}|[A-Z]{2} ?[0-9]{2}|GE ?CX|GIR ?0A{2}|SAN ?TA1)$"
 
 def validatePostcode(code: str) -> bool:
     formatted_code = formatCode(sliceCode(code)) # formats the inputted postcode
@@ -39,3 +43,26 @@ def sliceCode(code: str) -> list:
     sliced_code = []
     sliced_code[:] = code
     return sliced_code
+
+def validateWithRegex(code: str) -> bool:
+    input = code
+    print(f"Inputted code: {input}")
+    check = re.search(regex, input)
+    if check:
+        print("Valid Postcode")
+        return True
+    else:
+        print("Invalid Postcode")
+        return False
+    
+# valids
+validateWithRegex("EC1A 1BB")
+validateWithRegex("W1A 0AX")
+validateWithRegex("M1 1AE")
+validateWithRegex("B33 8TH")
+validateWithRegex("CR2 6XH")
+validateWithRegex("DN55 1PT")
+# special codes
+validateWithRegex("BX2 1LB")
+validateWithRegex("E16 1XL")
+validateWithRegex("L30 4GB")
