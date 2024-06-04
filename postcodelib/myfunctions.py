@@ -17,18 +17,8 @@ def validatePostcode(code: str) -> bool:
     formatted_code = formatCode(sliceCode(code)) # formats the inputted postcode
     print(formatted_code)
 
-    # Additional validity checks
-    if not validateFirstPosition(code):
-        print(f"Invalid character in first position of code: {code}")
-        return False
-    if not validateSecondPosition(code):
-        print(f"Invalid character in second position of code: {code}")
-        return False
-    if not validateThirdPosition(code):
-        print(f"Invalid character in third position of code: {code}")
-        return False
-    if not validateFourthPosition(code):
-        print(f"Invalid character in fourth position of code: {code}")
+    if not additionalValidations(code):
+        print("Postcode did not pass additional validations")
         return False
 
     # Check format
@@ -56,6 +46,22 @@ def sliceCode(code: str) -> list:
     sliced_code = []
     sliced_code[:] = code
     return sliced_code
+
+def additionalValidations(code :str) -> bool:
+    if not validateFirstPosition(code):
+        print(f"Invalid character in first position of code: {code}")
+        return False
+    if not validateSecondPosition(code):
+        print(f"Invalid character in second position of code: {code}")
+        return False
+    if not validateThirdPosition(code):
+        print(f"Invalid character in third position of code: {code}")
+        return False
+    if not validateFourthPosition(code):
+        print(f"Invalid character in fourth position of code: {code}")
+        return False
+    else:
+        return True
 
 def validateFirstPosition(code: str) -> bool:
     invalid_letters = {"Q", "V", "X"}
