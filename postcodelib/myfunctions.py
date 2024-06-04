@@ -1,5 +1,3 @@
-import re
-
 """
 This file allows for validation of UK postcodes.
 There are a handful of valid postcode formats, which can be seen below.
@@ -15,14 +13,29 @@ formats = [
     ["A", "A", "9", "9",  " ", "9", "A", "A"]
 ]
 
-regex = "^(([A-Z]{1,2}[0-9][A-Z0-9]?|ASCN|STHL|TDCU|BBND|[BFS]IQQ|PCRN|TKCA) ?[0-9][A-Z]{2}|BFPO ?[0-9]{1,4}|(KY[0-9]|MSR|VG|AI)[ -]?[0-9]{4}|[A-Z]{2} ?[0-9]{2}|GE ?CX|GIR ?0A{2}|SAN ?TA1)$"
-
 def validatePostcode(code: str) -> bool:
     formatted_code = formatCode(sliceCode(code)) # formats the inputted postcode
     print(formatted_code)
+
+    # Additional validity checks
+    if not validateFirstPosition(code):
+        print(f"Invalid character in first position of code: {code}")
+        return False
+    if not validateSecondPosition(code):
+        print(f"Invalid character in second position of code: {code}")
+        return False
+    if not validateThirdPosition(code):
+        print(f"Invalid character in third position of code: {code}")
+        return False
+    if not validateFourthPosition(code):
+        print(f"Invalid character in fourth position of code: {code}")
+        return False
+
+    # Check format
     for f in formats:
-        if all(x == y for x, y in zip(f, formatted_code)):  # checks the input format against the list of valid formats
-            print(f"Postcode matches format {f}")           # https://www.geeksforgeeks.org/python-check-if-two-lists-are-identical/
+        # if all(x == y for x, y in zip(f, formatted_code)):  # checks the input format against the list of valid formats
+        #     print(f"Postcode matches format {f}")           # https://www.geeksforgeeks.org/python-check-if-two-lists-are-identical/
+        if formatted_code == f:
             return True
     return False
 
@@ -44,25 +57,42 @@ def sliceCode(code: str) -> list:
     sliced_code[:] = code
     return sliced_code
 
-def validateWithRegex(code: str) -> bool:
-    input = code
-    print(f"Inputted code: {input}")
-    check = re.search(regex, input)
-    if check:
-        print("Valid Postcode")
+def validateFirstPosition(code: str) -> bool:
+    invalid_letters = {"Q", "V", "X"}
+    for letter in invalid_letters:
+        if letter == code[0]:
+            return False
+    return True
+
+def validateSecondPosition(code: str) -> bool:
+    invalid_letters = {"I", "J", "Z"}
+    for letter in invalid_letters:
+        if letter == code[1]:
+            return False
+    return True
+
+def validateThirdPosition(code: str) -> bool:
+    valid_format = formats[1]
+    valid_letters = {"A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "P", "S", "T", "U", "V", "W"}
+    if formatCode(sliceCode(code)) == valid_format:
+        for letter in valid_letters:
+            if letter == code[2]:
+                return False
         return True
-    else:
-        print("Invalid Postcode")
-        return False
-    
-# valids
-validateWithRegex("EC1A 1BB")
-validateWithRegex("W1A 0AX")
-validateWithRegex("M1 1AE")
-validateWithRegex("B33 8TH")
-validateWithRegex("CR2 6XH")
-validateWithRegex("DN55 1PT")
-# special codes
-validateWithRegex("BX2 1LB")
-validateWithRegex("E16 1XL")
-validateWithRegex("L30 4GB")
+    return True
+
+def validateFourthPosition(code: str) -> bool:
+    valid_format = formats[0]
+    valid_letters = {'A', 'B', 'E', 'H', 'M', 'N', 'P', 'R', 'V', 'W', 'X', 'Y'}
+    if formatCode(sliceCode(code)) == valid_format:
+        for letter in valid_letters:
+            if letter == code [3]:
+                return False
+        return True
+    return True
+
+if ["A", "A", "9", "A",  " ", "9", "A", "A"] == ["A", "A", "9", "A",  " ", "9", "A", "A"]:
+    print("yes")
+
+if ["A", "A", "9", "A",  " ", "9", "A", "A"] == ["A", "A", "A", "9", " ", "9", "A", "A"]:
+    print("yes2")
