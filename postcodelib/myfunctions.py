@@ -1,10 +1,12 @@
 import re
 
 """
-This file allows for validation of UK postcodes.
-There are a handful of valid postcode formats, which can be seen below.
-The validatePostcode function takes a user input (a postcode) and validates its format against the list of valid codes.
-    If the postcode is valid, it prints back "Postcode matches format {}" and returns False, else it returns False.
+    This file allows for validation of UK postcodes.
+    There are a handful of valid postcode formats, which can be seen below.
+    A user may call the validatePostcode() function, passing a string (postcode) as an argument.
+    This input will be checked against a handful of validations, depending on the format of the code.
+    If it passes these initial validations, the code is then checked against a list of predefined valid formats.
+    If it matches one of these formats, it is a valid postcode.
 """
 formats = [
     ["A", "A", "9", "A",  " ", "9", "A", "A"],  # WC postcode area; EC1–EC4, NW1W, SE1P, SW1 | EC1A 1BB
@@ -16,10 +18,11 @@ formats = [
 ]
 
 def validatePostcode(code: str) -> bool:
+    code = code.upper()                     # allows for lowercase postcode entries
+    formatted_code = formatCode(list(code)) # formats the inputted postcode
+
     print("--+------------+--")
     print(f"Validating Postcode {code}...")
-
-    formatted_code = formatCode(list(code)) # formats the inputted postcode
 
     if not additionalValidations(code):
         print("Postcode did not pass validations")
@@ -106,8 +109,7 @@ def validateFourthPosition(code: str) -> bool:
 
 def validateFinalTwoPositions(code: str) -> bool:
     invalid_letters = {"C", "I", "K", "M", "O", "V"}
-    for letter in invalid_letters:
-        if letter == (code[-1] or code[-2]):
+    if code[-1] in invalid_letters or code[-2] in invalid_letters:
             return False
     return True
 
