@@ -1,6 +1,6 @@
 # postcodelib/__init__.py
 
-from .myfunctions import (
+from .validate import (
     validatePostcode,
     formatCode,
     additionalValidations,
