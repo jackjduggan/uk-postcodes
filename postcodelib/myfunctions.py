@@ -16,17 +16,20 @@ formats = [
 ]
 
 def validatePostcode(code: str) -> bool:
+    print("--+------------+--")
+    print(f"Validating Postcode {code}...")
+
     formatted_code = formatCode(list(code)) # formats the inputted postcode
-    #print(formatted_code)
 
     if not additionalValidations(code):
-        print("Postcode did not pass additional validations")
+        print("Postcode did not pass validations")
         return False
 
     # Check format
     for f in formats:
         if all(x == y for x, y in zip(f, formatted_code)):  # checks the input format against the list of valid formats
             print(f"Postcode matches format {f}")           # https://www.geeksforgeeks.org/python-check-if-two-lists-are-identical/
+            print(f"Postcode: {code} is a valid UK Postcode!")
             return True
     return False
 
@@ -65,44 +68,40 @@ def additionalValidations(code :str) -> bool:
         print(f"Code: {code} passed additional validation checks.")
         return True
 
+"""
+    Validation Functions
+"""
+
 def validateFirstPosition(code: str) -> bool:
     invalid_letters = {"Q", "V", "X"}
-    for letter in invalid_letters:
-        if letter == code[0]:
-            return False
+    if code[0] in invalid_letters:
+        return False
     return True
 
 def validateSecondPosition(code: str) -> bool:
     invalid_letters = {"I", "J", "Z"}
-    for letter in invalid_letters:
-        if letter == code[1]:
-            return False
+    if code[1] in invalid_letters:
+        return False
     return True
 
 def validateThirdPosition(code: str) -> bool:
     valid_format = formats[1]
-    print(valid_format)
     formatted_code = formatCode(list(code))
     valid_letters = {"A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "P", "S", "T", "U", "V", "W"}
-    if all(x == y for x, y in zip(formatted_code, valid_format)):
-        for letter in valid_letters:
-            if letter == code[2]:
-                return False
-        return True
+
+    if formatted_code[:3] == valid_format[:3]:
+        if code[2] not in valid_letters:
+            return False
     return True
 
 def validateFourthPosition(code: str) -> bool:
     valid_format = formats[0]
+    formatted_code = formatCode(list(code))
     valid_letters = {"A", "B", "E", "H", "M", "N", "P", "R", "V", "W", "X", "Y"}
-    if all(x == y for x, y in zip(formatCode(list(code)), valid_format)):
-        #print("code matches format[0]")
-        for letter in valid_letters:
-            if letter == code[3]:
-                print(1)
-                return False
-        print(2)
-        return True
-    print(3)
+
+    if formatted_code[:4] == valid_format[:4]:
+        if code[3] not in valid_letters:
+            return False
     return True
 
 def validateFinalTwoPositions(code: str) -> bool:
@@ -117,24 +116,4 @@ def validateSpecialCases(code: str) -> bool:
     if not re.match(regex_pattern, code):
         return False
     return True
-
-
-valid_codes = [
-    "WC1A 1BB",  # Format: ["A", "A", "9", "A",  " ", "9", "A", "A"]
-    "W1A 0AX",   # Format: ["A", "9", "A", " ", "9", "A", "A"]
-    "M1 1AE",    # Format: ["A", "9", " ", "9", "A", "A"]
-    "B33 8TH",   # Format: ["A", "9", "9", " ", "9", "A", "A"]
-    "CR2 6XH",   # Format: ["A", "A", "9", " ", "9", "A", "A"]
-    "DN55 1PT"   # Format: ["A", "A", "9", "9", " ", "9", "A", "A"]
-]
-
-invalid_codes = [
-    "AAA AA9",
-    "9A 9AA",
-    "AA 9A9AA",
-    "A 9A9A",
-    "X91X931",
-    "XCD7 7VD",
-    "hello"
-]
 
