@@ -1,13 +1,13 @@
 # UK Postcode
 
-Majority of my Python experience thus far had been in the form of standalone script files are jupyter notebooks.\
-As such, I followed an article for help creating a Python library (ref1).\
+Majority of my Python experience thus far had been in the form of standalone script files are jupyter notebooks. \
+As such, I followed an article for help creating a Python library (ref1).
 
 ### How It Works
-- The main file, `myfunctions.py` contains a function, `validatePostcode` and accompanying helper functions.\
-- A user may call this function and pass a string (postcode) as an argument: i.e. `validatePostcode("AB1C 2DE")`.\
-- This input is then converted to uppercase (if necessary), and converted from a string to a list of characters: `["A", "B", "1", "C", " ", "2", "D", "E"]`.\
-- This list is then formatted, with all numbers being represented by "9", all letters by "A", spaces by " ", and anything else by "X": `["A", "A", "9", "A", " ", "9", "A", "A"]`.\
+- The main file, `myfunctions.py` contains a function, `validatePostcode` and accompanying helper functions.
+- A user may call this function and pass a string (postcode) as an argument: i.e. `validatePostcode("AB1C 2DE")`.
+- This input is then converted to uppercase (if necessary), and converted from a string to a list of characters: `["A", "B", "1", "C", " ", "2", "D", "E"]`.
+- This list is then formatted, with all numbers being represented by "9", all letters by "A", spaces by " ", and anything else by "X": `["A", "A", "9", "A", " ", "9", "A", "A"]`.
 - The unformatted code is tested against a handful of validations, ensuring invalid characters aren't present and verifying against special cases.
 - If it passes these initial validations, the formatted code is then compared against a list of valid formats (ref2):
 
